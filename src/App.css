@@ -1,0 +1,15 @@
+:root {
+  --color-red: #da2728;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/*debug*/
+
+canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
