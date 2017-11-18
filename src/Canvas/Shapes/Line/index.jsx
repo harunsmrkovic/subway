@@ -6,8 +6,11 @@ export class Line extends Component {
     fromX: PropTypes.number.isRequired,
     fromY: PropTypes.number.isRequired,
     toX: PropTypes.number.isRequired,
-    toY: PropTypes.number.isRequired,
-    ctx: PropTypes.number
+    toY: PropTypes.number.isRequired
+  }
+
+  static contextTypes = {
+    ctx: PropTypes.object // Canvas 2D context
   }
 
   componentDidMount() {
@@ -24,7 +27,7 @@ export class Line extends Component {
   }
 
   get ctx() {
-    return this.props.ctx
+    return this.context.ctx
   }
 
   drawLine(fromX, fromY, toX, toY) {

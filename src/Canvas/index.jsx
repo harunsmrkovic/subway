@@ -7,8 +7,20 @@ export * from './Shapes'
 export { Layer } from './Layer'
 
 export default class Canvas extends Component {
+  static propTypes = {
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired
+  }
+
   render() {
-    return <div className="Canvas-Wrapper">{this.props.children}</div>
+    const { width, height } = this.props
+    return (
+      <div className="Canvas-Wrapper">
+        {React.Children.map(this.props.children, layer =>
+          React.cloneElement(layer, { width, height })
+        )}
+      </div>
+    )
   }
 }
 

@@ -11,6 +11,10 @@ export class Rectangle extends Component {
     ctx: PropTypes.object
   }
 
+  static contextTypes = {
+    ctx: PropTypes.object // Canvas 2D context
+  }
+
   componentDidMount() {
     const { x, y, width, height, radius } = this.props
     this.drawRectangle(x, y, width, height, radius)
@@ -25,7 +29,7 @@ export class Rectangle extends Component {
   }
 
   get ctx() {
-    return this.props.ctx
+    return this.context.ctx
   }
 
   drawRectangle(x, y, width, height, radius = 0) {
