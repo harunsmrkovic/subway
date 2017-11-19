@@ -35,17 +35,17 @@ export default class Trains extends Component {
 
   render() {
     const midpoint = this.midpoint(
-      this.props.stations[2].x,
-      this.props.stations[2].y,
-      this.props.stations[3].x,
-      this.props.stations[3].y,
+      this.props.stations[0].x,
+      this.props.stations[0].y,
+      this.props.stations[1].x,
+      this.props.stations[1].y,
       this.state.moved
     )
+    return null
 
     return (
       <Layer {...this.props.wrapperSize}>
         <Rectangle
-          key="train"
           x={midpoint.x}
           y={midpoint.y}
           width={50}
