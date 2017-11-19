@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Canvas, { Rectangle, Line } from '../Canvas'
 
 import Track from '../Track'
+import Trains from '../Trains'
 import city from '../mocks/city'
 
 import './style.css'
@@ -11,15 +12,30 @@ export default class City extends Component {
     mapSize: {
       width: 1000,
       height: 600
-    }
+    },
+    gridRatio: 10
   }
 
   render() {
     return (
       <Canvas {...this.props.mapSize}>
-        <Track wrapperSize={this.props.mapSize} stations={city[0].stations} />
+        <Track wrapperSize={this.props.mapSize} stations={this.stations} />
+        <Trains wrapperSize={this.props.mapSize} stations={this.stations} />
       </Canvas>
     )
+  }
+
+  _scaledCoordinate(coordinate) {
+    return coordinate * this.props.gridRatio
+  }
+
+  get stations() {
+    const cityStationsDebug = city[0].stations
+    return cityStationsDebug.map(station => ({
+      ...station,
+      x: this._scaledCoordinate(station.x),
+      y: this._scaledCoordinate(station.y)
+    }))
   }
 }
 

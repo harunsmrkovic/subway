@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import { Rectangle } from '../Rectangle'
 
+// TODO: should it be wrapped in withShape? or just put into Rectangle folder... hm
+
 export class Circle extends Component {
   static propTypes = {
     x: PropTypes.number.isRequired,

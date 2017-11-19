@@ -16,24 +16,11 @@ class Track extends Component {
     wrapperSize: PropTypes.shape({
       width: PropTypes.number.isRequired,
       height: PropTypes.number.isRequired
-    }).isRequired,
-    gridRatio: PropTypes.number
+    }).isRequired
   }
 
   static defaultProps = {
-    gridRatio: 10,
     stationSize: 30
-  }
-
-  state = {
-    moved: 0.01
-  }
-
-  componentDidMount() {
-    setInterval(() => {
-      if (this.state.moved >= 1) return
-      this.setState({ moved: this.state.moved + 0.01 })
-    }, 50)
   }
 
   render() {
@@ -41,46 +28,20 @@ class Track extends Component {
       <Layer {...this.props.wrapperSize}>
         {this.renderStations()}
         {this.renderLines()}
-        {this.debugRenderTrain()}
       </Layer>
-    )
-  }
-
-  midpoint(fromX, fromY, toX, toY, per) {
-    return { x: fromX + (toX - fromX) * per, y: fromY + (toY - fromY) * per }
-  }
-
-  debugRenderTrain() {
-    const midpoint = this.midpoint(
-      this.stationsOnMap[2].x,
-      this.stationsOnMap[2].y,
-      this.stationsOnMap[3].x,
-      this.stationsOnMap[3].y,
-      this.state.moved
-    )
-
-    return (
-      <Rectangle
-        key="train"
-        x={midpoint.x}
-        y={midpoint.y}
-        width={50}
-        height={20}
-        radius={10}
-      />
     )
   }
 
   renderStations() {
     const { stationSize } = this.props
 
-    return this.stationsOnMap.map(({ x, y, name }) => (
+    return this.stationsOnTrack.map(({ x, y, name }) => (
       <Circle key={name} x={x} y={y} radius={stationSize} />
     ))
   }
 
   renderLines() {
-    const stations = this.stations
+    const { stations } = this.props
 
     return stations.map(({ x, y, name }, i) => {
       return (
@@ -97,25 +58,13 @@ class Track extends Component {
     })
   }
 
-  _scaledCoordinate(coordinate) {
-    return coordinate * this.props.gridRatio
-  }
-
-  get stationsOnMap() {
+  get stationsOnTrack() {
     const { stationSize } = this.props
 
-    return this.stations.map(station => ({
+    return this.props.stations.map(station => ({
       ...station,
       x: station.x - stationSize / 2,
       y: station.y - stationSize / 2
-    }))
-  }
-
-  get stations() {
-    return this.props.stations.map(station => ({
-      ...station,
-      x: this._scaledCoordinate(station.x),
-      y: this._scaledCoordinate(station.y)
     }))
   }
 }

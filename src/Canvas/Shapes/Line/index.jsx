@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { Shape } from '../withShape'
+import withShape from '../withShape'
 
 export class LineBase extends Component {
   static propTypes = {
@@ -37,4 +37,4 @@ export class LineBase extends Component {
   }
 }
 
-export const Line = Shape(LineBase)
+export const Line = withShape(LineBase)

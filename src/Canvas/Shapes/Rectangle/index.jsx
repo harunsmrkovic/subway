@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { Shape } from '../withShape'
+import withShape from '../withShape'
 
-class RectangleBase extends Component {
+export class RectangleBase extends Component {
   static propTypes = {
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
@@ -15,6 +15,7 @@ class RectangleBase extends Component {
 
   componentDidMount() {
     const { x, y, width, height, radius } = this.props
+
     this.drawRectangle(x, y, width, height, radius)
   }
 
@@ -63,4 +64,4 @@ class RectangleBase extends Component {
   }
 }
 
-export const Rectangle = Shape(RectangleBase)
+export const Rectangle = withShape(RectangleBase)
