@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import Canvas, { Layer, Rectangle, Line } from '../Canvas'
+import Canvas, { Rectangle, Line, Circle } from '../Canvas'
+import { Layer } from '../Canvas/Layer'
 
 import './style.css'
 
@@ -21,26 +22,60 @@ class Track extends Component {
 
   static defaultProps = {
     gridRatio: 10,
-    stationWidth: 30,
-    stationHeight: 30
+    stationSize: 30
+  }
+
+  state = {
+    moved: 0.01
+  }
+
+  componentDidMount() {
+    setInterval(() => {
+      if (this.state.moved >= 1) return
+      this.setState({ moved: this.state.moved + 0.01 })
+    }, 50)
   }
 
   render() {
-    return [this.renderStations(), this.renderLines()]
+    return (
+      <Layer {...this.props.wrapperSize}>
+        {this.renderStations()}
+        {this.renderLines()}
+        {this.debugRenderTrain()}
+      </Layer>
+    )
+  }
+
+  midpoint(fromX, fromY, toX, toY, per) {
+    return { x: fromX + (toX - fromX) * per, y: fromY + (toY - fromY) * per }
+  }
+
+  debugRenderTrain() {
+    const midpoint = this.midpoint(
+      this.stationsOnMap[2].x,
+      this.stationsOnMap[2].y,
+      this.stationsOnMap[3].x,
+      this.stationsOnMap[3].y,
+      this.state.moved
+    )
+
+    return (
+      <Rectangle
+        key="train"
+        x={midpoint.x}
+        y={midpoint.y}
+        width={50}
+        height={20}
+        radius={10}
+      />
+    )
   }
 
   renderStations() {
-    const { stationWidth, stationHeight } = this.props
+    const { stationSize } = this.props
 
     return this.stationsOnMap.map(({ x, y, name }) => (
-      <Rectangle
-        key={name}
-        x={x}
-        y={y}
-        width={stationWidth}
-        height={stationHeight}
-        radius={15}
-      />
+      <Circle key={name} x={x} y={y} radius={stationSize} />
     ))
   }
 
@@ -67,12 +102,12 @@ class Track extends Component {
   }
 
   get stationsOnMap() {
-    const { stationWidth, stationHeight } = this.props
+    const { stationSize } = this.props
 
     return this.stations.map(station => ({
       ...station,
-      x: station.x - stationWidth / 2,
-      y: station.y - stationHeight / 2
+      x: station.x - stationSize / 2,
+      y: station.y - stationSize / 2
     }))
   }
 

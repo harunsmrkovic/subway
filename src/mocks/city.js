@@ -18,6 +18,11 @@ export default [
         x: 70,
         y: 20,
         terminus: true
+      },
+      {
+        name: 'Naturkunde Museum',
+        x: 90,
+        y: 10
       }
     ]
   }

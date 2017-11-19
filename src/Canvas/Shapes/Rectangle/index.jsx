@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-export class Rectangle extends Component {
+import { Shape } from '../withShape'
+
+class RectangleBase extends Component {
   static propTypes = {
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
@@ -9,10 +11,6 @@ export class Rectangle extends Component {
     height: PropTypes.number.isRequired,
     radius: PropTypes.number,
     ctx: PropTypes.object
-  }
-
-  static contextTypes = {
-    ctx: PropTypes.object // Canvas 2D context
   }
 
   componentDidMount() {
@@ -24,12 +22,8 @@ export class Rectangle extends Component {
     this.drawRectangle(x, y, width, height, radius)
   }
 
-  render() {
-    return null
-  }
-
   get ctx() {
-    return this.context.ctx
+    return this.props.ctx
   }
 
   drawRectangle(x, y, width, height, radius = 0) {
@@ -63,4 +57,10 @@ export class Rectangle extends Component {
     this.ctx.arcTo(x, y, x, y + radius, radius)
     this.ctx.stroke()
   }
+
+  render() {
+    return null
+  }
 }
+
+export const Rectangle = Shape(RectangleBase)

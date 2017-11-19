@@ -1,16 +1,15 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-export class Line extends Component {
+import { Shape } from '../withShape'
+
+export class LineBase extends Component {
   static propTypes = {
     fromX: PropTypes.number.isRequired,
     fromY: PropTypes.number.isRequired,
     toX: PropTypes.number.isRequired,
-    toY: PropTypes.number.isRequired
-  }
-
-  static contextTypes = {
-    ctx: PropTypes.object // Canvas 2D context
+    toY: PropTypes.number.isRequired,
+    ctx: PropTypes.object
   }
 
   componentDidMount() {
@@ -27,7 +26,7 @@ export class Line extends Component {
   }
 
   get ctx() {
-    return this.context.ctx
+    return this.props.ctx
   }
 
   drawLine(fromX, fromY, toX, toY) {
@@ -37,3 +36,5 @@ export class Line extends Component {
     this.ctx.stroke()
   }
 }
+
+export const Line = Shape(LineBase)

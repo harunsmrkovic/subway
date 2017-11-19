@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import './style.css'
 
 export * from './Shapes'
-export { Layer } from './Layer'
 
 export default class Canvas extends Component {
   static propTypes = {
@@ -14,16 +13,12 @@ export default class Canvas extends Component {
 
   render() {
     const { width, height } = this.props
-    return (
-      <div className="Canvas-Wrapper">
-        {React.Children.map(this.props.children, layer =>
-          React.cloneElement(layer, { width, height })
-        )}
-      </div>
-    )
+    return <div className="Canvas-Wrapper">{this.props.children}</div>
   }
 }
-
+// {React.Children.map(this.props.children, layer =>
+//   React.cloneElement(layer, { width, height })
+// )}
 // export class Canvas extends Component {
 //   componentDidMount() {
 //     const canvas = this.node

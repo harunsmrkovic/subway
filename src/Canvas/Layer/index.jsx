@@ -11,15 +11,7 @@ export class Layer extends Component {
     mounted: false
   }
 
-  static childContextTypes = {
-    ctx: PropTypes.object // Canvas 2D Context
-  }
-
-  getChildContext() {
-    return {
-      ctx: this.ctx
-    }
-  }
+  elements = []
 
   componentDidMount() {
     const canvas = this.node
@@ -28,7 +20,14 @@ export class Layer extends Component {
     this.setState({ mounted: true })
   }
 
-  componentWillReceiveProps() {
+  renderShapesWithProps() {
+    return React.Children.map(
+      this.props.children,
+      shape => shape && React.cloneElement(shape, { ctx: this.ctx })
+    )
+  }
+
+  componentWillUpdate() {
     this.clearCanvas()
   }
 
@@ -41,7 +40,7 @@ export class Layer extends Component {
     const { width, height } = this.props
     return (
       <canvas ref={node => (this.node = node)} width={width} height={height}>
-        {this.state.mounted && this.props.children}
+        {this.state.mounted && this.renderShapesWithProps()}
       </canvas>
     )
   }

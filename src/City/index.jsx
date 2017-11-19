@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Canvas, { Layer, Rectangle, Line } from '../Canvas'
+import Canvas, { Rectangle, Line } from '../Canvas'
 
 import Track from '../Track'
 import city from '../mocks/city'
@@ -17,9 +17,7 @@ export default class City extends Component {
   render() {
     return (
       <Canvas {...this.props.mapSize}>
-        <Layer>
-          <Track wrapperSize={this.props.mapSize} stations={city[0].stations} />
-        </Layer>
+        <Track wrapperSize={this.props.mapSize} stations={city[0].stations} />
       </Canvas>
     )
   }
