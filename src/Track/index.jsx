@@ -27,8 +27,8 @@ class Track extends Component {
   render() {
     return (
       <Layer {...this.props.wrapperSize}>
-        {this.renderStations()}
         {this.renderLines()}
+        {this.renderStations()}
       </Layer>
     )
   }
@@ -37,12 +37,19 @@ class Track extends Component {
     const { stationSize } = this.props
 
     return this.stationsOnTrack.map(({ x, y, name }) => (
-      <Circle key={name} x={x} y={y} radius={stationSize} />
+      <Circle
+        key={name}
+        x={x}
+        y={y}
+        radius={stationSize}
+        fillColor="#EC5446"
+        strokeColor="#843A36"
+      />
     ))
   }
 
   renderLines() {
-    const { stations } = this.props
+    const { stations, railsDistance } = this.props
 
     return [
       stations.map(({ x, y, name }, i) => {
@@ -50,6 +57,8 @@ class Track extends Component {
           i < stations.length - 1 && (
             <Line
               key={name}
+              width={3}
+              color="#EA2720"
               {...this.determinePositionForRails(
                 x,
                 y,
@@ -64,12 +73,28 @@ class Track extends Component {
         return (
           i < stations.length - 1 && (
             <Line
+              width={3}
+              color="#EA2720"
               {...this.determinePositionForRails(
                 x,
                 y,
                 stations[i + 1].x,
                 stations[i + 1].y
               )[1]}
+            />
+          )
+        )
+      }),
+      stations.map(({ x, y, name }, i) => {
+        return (
+          i < stations.length - 1 && (
+            <Line
+              width={railsDistance - 5}
+              color="#EC5446"
+              fromX={x}
+              toX={stations[i + 1].x}
+              fromY={y}
+              toY={stations[i + 1].y}
             />
           )
         )

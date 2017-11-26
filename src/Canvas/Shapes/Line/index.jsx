@@ -9,16 +9,23 @@ export class LineBase extends Component {
     fromY: PropTypes.number.isRequired,
     toX: PropTypes.number.isRequired,
     toY: PropTypes.number.isRequired,
+    width: PropTypes.number,
+    color: PropTypes.string,
     ctx: PropTypes.object
   }
 
-  componentDidMount() {
-    const { fromX, fromY, toX, toY } = this.props
-    this.drawLine(fromX, fromY, toX, toY)
+  static defaultProps = {
+    width: 1,
+    color: '#000'
   }
 
-  componentWillReceiveProps({ fromX, fromY, toX, toY }) {
-    this.drawLine(fromX, fromY, toX, toY)
+  componentDidMount() {
+    const { fromX, fromY, toX, toY, width } = this.props
+    this.drawLine(this.props)
+  }
+
+  componentWillUpdate(nextProps) {
+    this.drawLine(nextProps)
   }
 
   render() {
@@ -29,10 +36,12 @@ export class LineBase extends Component {
     return this.props.ctx
   }
 
-  drawLine(fromX, fromY, toX, toY) {
+  drawLine({ fromX, fromY, toX, toY, width, color }) {
     this.ctx.beginPath()
     this.ctx.moveTo(fromX, fromY)
     this.ctx.lineTo(toX, toY)
+    this.ctx.strokeStyle = color
+    this.ctx.lineWidth = width
     this.ctx.stroke()
   }
 }

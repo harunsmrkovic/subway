@@ -26,32 +26,50 @@ export default class Trains extends Component {
     setInterval(() => {
       if (this.state.moved >= 1) return
       this.setState({ moved: this.state.moved + 0.01 })
-    }, 50)
+    }, 30)
   }
 
   midpoint(fromX, fromY, toX, toY, per) {
     return { x: fromX + (toX - fromX) * per, y: fromY + (toY - fromY) * per }
   }
 
-  render() {
-    const midpoint = this.midpoint(
-      this.props.stations[0].x,
-      this.props.stations[0].y,
-      this.props.stations[1].x,
-      this.props.stations[1].y,
+  _renderTrain(start, end) {
+    const stationFrom = this.props.stations[start]
+    const stationTo = this.props.stations[end]
+    const point = this.midpoint(
+      stationFrom.x,
+      stationFrom.y,
+      stationTo.x,
+      stationTo.y,
       this.state.moved
     )
-    return null
+
+    const angle = Math.atan2(
+      stationTo.y - stationFrom.y,
+      stationTo.x - stationFrom.x
+    )
 
     return (
+      <Rectangle
+        x={point.x}
+        y={point.y}
+        width={20}
+        height={10}
+        angle={angle}
+        fillColor="#d0d0d0"
+      />
+    )
+  }
+
+  render() {
+    return (
       <Layer {...this.props.wrapperSize}>
-        <Rectangle
-          x={midpoint.x}
-          y={midpoint.y}
-          width={50}
-          height={20}
-          radius={10}
-        />
+        {this._renderTrain(0, 1)}
+        {this._renderTrain(1, 2)}
+        {this._renderTrain(2, 3)}
+        {this._renderTrain(3, 4)}
+        {this._renderTrain(4, 5)}
+        {this._renderTrain(5, 6)}
       </Layer>
     )
   }

@@ -18,8 +18,6 @@ export class Circle extends Component {
     return (
       <Rectangle
         {...this.props}
-        x={x}
-        y={y}
         width={radius}
         height={radius}
         radius={radius / 2}
