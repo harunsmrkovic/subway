@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Track utils determineRailsPosition Diagonal Bottom-Left towards Top-Right distances both lines correctly 1`] = `
+Array [
+  Object {
+    "fromX": 3.95,
+    "fromY": 8.95,
+    "toX": 8.95,
+    "toY": 3.95,
+  },
+  Object {
+    "fromX": 6.05,
+    "fromY": 11.05,
+    "toX": 11.05,
+    "toY": 6.05,
+  },
+]
+`;
+
+exports[`Track utils determineRailsPosition Diagonal Bottom-Right towards Top-Left distances both lines correctly 1`] = `
+Array [
+  Object {
+    "fromX": 8.95,
+    "fromY": 56.05,
+    "toX": 3.95,
+    "toY": 51.05,
+  },
+  Object {
+    "fromX": 11.05,
+    "fromY": 53.95,
+    "toX": 6.05,
+    "toY": 48.95,
+  },
+]
+`;
+
+exports[`Track utils determineRailsPosition Diagonal Top-Left towards Bottom-Right distances both lines correctly 1`] = `
+Array [
+  Object {
+    "fromX": 91.05,
+    "fromY": 3.95,
+    "toX": 96.05,
+    "toY": 8.95,
+  },
+  Object {
+    "fromX": 88.95,
+    "fromY": 6.05,
+    "toX": 93.95,
+    "toY": 11.05,
+  },
+]
+`;
+
+exports[`Track utils determineRailsPosition Diagonal Top-Right towards Bottom-Left distances both lines correctly 1`] = `
+Array [
+  Object {
+    "fromX": 96.05,
+    "fromY": 51.05,
+    "toX": 91.05,
+    "toY": 56.05,
+  },
+  Object {
+    "fromX": 93.95,
+    "fromY": 48.95,
+    "toX": 88.95,
+    "toY": 53.95,
+  },
+]
+`;
+
+exports[`Track utils determineRailsPosition Horizontal Left towards Right distances both lines correctly 1`] = `
+Array [
+  Object {
+    "fromX": 10,
+    "fromY": 3.5,
+    "toX": 90,
+    "toY": 3.5,
+  },
+  Object {
+    "fromX": 10,
+    "fromY": 6.5,
+    "toX": 90,
+    "toY": 6.5,
+  },
+]
+`;
+
+exports[`Track utils determineRailsPosition Horizontal Right towards Left distances both lines correctly 1`] = `
+Array [
+  Object {
+    "fromX": 90,
+    "fromY": 56.5,
+    "toX": 10,
+    "toY": 56.5,
+  },
+  Object {
+    "fromX": 90,
+    "fromY": 53.5,
+    "toX": 10,
+    "toY": 53.5,
+  },
+]
+`;
+
+exports[`Track utils determineRailsPosition Vertical Bottom towards Top distances both lines correctly 1`] = `
+Array [
+  Object {
+    "fromX": 3.5,
+    "fromY": 50,
+    "toX": 3.5,
+    "toY": 15,
+  },
+  Object {
+    "fromX": 6.5,
+    "fromY": 50,
+    "toX": 6.5,
+    "toY": 15,
+  },
+]
+`;
+
+exports[`Track utils determineRailsPosition Vertical Top towards Bottom distances both lines correctly 1`] = `
+Array [
+  Object {
+    "fromX": 96.5,
+    "fromY": 10,
+    "toX": 96.5,
+    "toY": 50,
+  },
+  Object {
+    "fromX": 93.5,
+    "fromY": 10,
+    "toX": 93.5,
+    "toY": 50,
+  },
+]
+`;
