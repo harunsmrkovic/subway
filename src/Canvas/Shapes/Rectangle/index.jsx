@@ -10,37 +10,84 @@ export class RectangleBase extends Component {
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     radius: PropTypes.number,
+    angle: PropTypes.number, // radians
+    strokeWidth: PropTypes.number,
+    strokeColor: PropTypes.string,
+    fillColor: PropTypes.string,
     ctx: PropTypes.object
   }
 
-  componentDidMount() {
-    const { x, y, width, height, radius } = this.props
-
-    this.drawRectangle(x, y, width, height, radius)
+  static defaultProps = {
+    strokeWidth: 1,
+    strokeColor: '#000',
+    fillColor: '',
+    radius: 0,
+    angle: 0
   }
 
-  componentWillReceiveProps({ x, y, width, height, radius }) {
-    this.drawRectangle(x, y, width, height, radius)
+  componentDidMount() {
+    this.drawRectangle(this.props)
+  }
+
+  componentWillUpdate(nextProps) {
+    this.drawRectangle(nextProps)
   }
 
   get ctx() {
     return this.props.ctx
   }
 
-  drawRectangle(x, y, width, height, radius = 0) {
-    if (!radius) {
-      this._drawNormalRectangle(x, y, width, height)
+  drawRectangle(props) {
+    if (!props.radius) {
+      this._drawNormalRectangle(props)
     } else {
-      this._drawRoundedRectangle(x, y, width, height, radius)
+      this._drawRoundedRectangle(props)
     }
   }
 
-  _drawNormalRectangle(x, y, width, height) {
-    this.ctx.fillRect(x, y, width, height)
+  _drawNormalRectangle({
+    x,
+    y,
+    width,
+    height,
+    strokeColor,
+    fillColor,
+    strokeWidth,
+    angle
+  }) {
+    // TODO: make it consistent with rounded... colors etc; probably extract part?
+    // this.ctx.fillRect(x, y, width, height)
+    const { topLeft, topRight, bottomRight, bottomLeft } = this.points(
+      x,
+      y,
+      width,
+      height,
+      angle
+    )
+    this.ctx.beginPath()
+
+    this.ctx.moveTo(topLeft.x, topLeft.y)
+    this.ctx.lineTo(topRight.x, topRight.y)
+    this.ctx.lineTo(bottomRight.x, bottomRight.y)
+    this.ctx.lineTo(bottomLeft.x, bottomLeft.y)
+    this.ctx.lineTo(topLeft.x, topLeft.y)
+    this.ctx.stroke()
+    this.ctx.closePath()
   }
 
-  _drawRoundedRectangle(x, y, width, height, radius) {
+  _drawRoundedRectangle({
+    x,
+    y,
+    width,
+    height,
+    radius,
+    strokeWidth,
+    strokeColor,
+    fillColor
+  }) {
     this.ctx.beginPath()
+
+    // Drawing the rounded corners and lines
     this.ctx.moveTo(x, y + radius)
     this.ctx.lineTo(x, y + height - radius)
     this.ctx.arcTo(x, y + height, x + radius, y + height, radius)
@@ -56,7 +103,69 @@ export class RectangleBase extends Component {
     this.ctx.arcTo(x + width, y, x + width - radius, y, radius)
     this.ctx.lineTo(x + radius, y)
     this.ctx.arcTo(x, y, x, y + radius, radius)
+
+    this.ctx.closePath()
+
+    // Set up fill
+    if (fillColor) {
+      this.ctx.fillStyle = fillColor
+      this.ctx.fill()
+    }
+
+    // Set up stroke
+    this.ctx.strokeStyle = strokeColor
+    this.ctx.lineWidth = strokeWidth
     this.ctx.stroke()
+  }
+
+  rotatePoint({ x, y }, { rotateBy, around } = {}) {
+    if (rotateBy) {
+      return {
+        x:
+          Math.cos(rotateBy) * (x - around.x) -
+          Math.sin(rotateBy) * (y - around.y) +
+          around.x,
+        y:
+          Math.cos(rotateBy) * (y - around.y) +
+          Math.sin(rotateBy) * (x - around.x) +
+          around.y
+      }
+    }
+
+    return { x, y }
+  }
+
+  points(x, y, width, height, angle) {
+    return {
+      topLeft: this.rotatePoint(
+        {
+          x,
+          y
+        },
+        { around: { x, y }, rotateBy: angle }
+      ),
+      topRight: this.rotatePoint(
+        {
+          x: x + width,
+          y
+        },
+        { around: { x, y }, rotateBy: angle }
+      ),
+      bottomRight: this.rotatePoint(
+        {
+          x: x + width,
+          y: y + height
+        },
+        { around: { x, y }, rotateBy: angle }
+      ),
+      bottomLeft: this.rotatePoint(
+        {
+          x,
+          y: y + height
+        },
+        { around: { x, y }, rotateBy: angle }
+      )
+    }
   }
 
   render() {
