@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Rectangle radius when it has no corner radius uses provided ctx to draw Rectangle with no corner radius 1`] = `
+Array [
+  Object {
+    "args": Array [],
+    "fn": "beginPath",
+  },
+  Object {
+    "args": Array [
+      1,
+      1,
+    ],
+    "fn": "moveTo",
+  },
+  Object {
+    "args": Array [
+      11,
+      1,
+    ],
+    "fn": "lineTo",
+  },
+  Object {
+    "args": Array [
+      11,
+      11,
+    ],
+    "fn": "lineTo",
+  },
+  Object {
+    "args": Array [
+      1,
+      11,
+    ],
+    "fn": "lineTo",
+  },
+  Object {
+    "args": Array [
+      1,
+      1,
+    ],
+    "fn": "lineTo",
+  },
+  Object {
+    "args": Array [],
+    "fn": "stroke",
+  },
+  Object {
+    "args": Array [],
+    "fn": "closePath",
+  },
+]
+`;

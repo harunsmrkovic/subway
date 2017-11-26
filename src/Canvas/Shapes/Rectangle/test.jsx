@@ -1,6 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-
+import { fingerprint } from '../../../tests/utils'
 import { RectangleBase as Rectangle } from '.'
 
 const defaultProps = {
@@ -12,13 +12,18 @@ const defaultProps = {
 
 describe('Rectangle', () => {
   describe('radius', () => {
-    describe('when it has no radius', () => {
-      it('calls fillRect on ctx with proper values', () => {
-        const ctx = {
-          fillRect: jest.fn()
-        }
-        shallow(<Rectangle {...defaultProps} ctx={ctx} />)
-        expect(ctx.fillRect).toHaveBeenCalledWith(1, 1, 10, 10)
+    describe('when it has no corner radius', () => {
+      it('uses provided ctx to draw Rectangle with no corner radius', () => {
+        const ctx = fingerprint([
+          'beginPath',
+          'moveTo',
+          'lineTo',
+          'stroke',
+          'closePath'
+        ])
+
+        shallow(<Rectangle {...defaultProps} ctx={ctx.mocks} />)
+        expect(ctx.log).toMatchSnapshot()
       })
     })
   })
